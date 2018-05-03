@@ -114,22 +114,25 @@ Example template code: (bootstrap)
   {{/each}}
 </ul>
 ```
-This is also using a global helper I have for moment: (coffeescript)
-```
-Template.registerHelper 'moment', (date, format) ->
-  date = moment(date)
-  return date.format format
+This is also using a global helper I have for moment:
+```js
+Template.registerHelper('moment', function(date, format) {
+  date = moment(date);
+  return date.format(format);
+});
 ```
 
-Example template event code: (coffeescript)
-```
-Template.fooRevisions.events
-  'click .revertFoo': (e,t) ->
-    #get the foo document _id
-    foo = Template.parentData()
+Example template event code:
+```js
+Template.fooRevisions.events({
+  'click .revertFoo'(e,t) {
+    // get the foo document _id
+    const foo = Template.parentData();
 
-    #restore the revision
-    CollectionRevisions.restore('Foo', foo._id, @revisionId) 
+    // restore the revision
+    CollectionRevisions.restore('Foo', foo._id, this.revisionId);
+  }
+}); 
 ```
 
 Callbacks
