@@ -7,8 +7,7 @@ const { CollectionRevisions } = root;
 CollectionRevisions.defaults = {
   field: 'revisions',
   lastModifiedField: 'lastModified',
-  ignoreWithin: false,
-  ignoreWithinUnit: 'minutes',
+  ignoreWithin: 0,
   keep: true,
   debug: false,
   prune: false,
@@ -44,16 +43,10 @@ mongo.Collection.prototype.attachCollectionRevisions = function(opts) {
     opts.keep = -1;
   }
 
-  //Convert ignoreWithin = false to 0
-  if (opts.ignoreWithin === false) {
-    opts.ignoreWithin = 0;
-  }
-
   const fields = {
     field:String,
     lastModifiedField: String,
     ignoreWithin: Number,
-    ignoreWithinUnit: String,
     keep: Number,
     debug: Boolean,
     prune: Boolean,
@@ -96,7 +89,7 @@ mongo.Collection.prototype.attachCollectionRevisions = function(opts) {
     //See if this update occured more than the ignored time window since the last one
     //or the option is set to not ignore within
     //or the lastModified field is not present (collection created before this package was added)
-    if (moment(doc[opts.lastModifiedField]).isBefore(moment().subtract(opts.ignoreWithin,opts.ignoreWithinUnit)) || (opts.ignoreWithin === 0) || (doc[opts.lastModifiedField] == null)) {
+    if ((opts.ignoreWithin <= 0) || (doc[opts.lastModifiedField] == null) || new Date(doc[opts.lastModifiedField]) + opts.ignoreWithin < new Date()) {
       //If so, add a new revision
       crDebug(opts, 'Is past ignore window, creating revision');
 

@@ -46,8 +46,7 @@ These will be used for all collections you attach the CollectionRevisions to.
 ```
 CollectionRevisions.Foo = {
   keep:10
-  ignoreWithin: 1
-  ignoreWithinUnit: 'minutes'
+  ignoreWithin: 60000
   ... define whatever options you want to override the global or package defaults
 }
 
@@ -61,8 +60,7 @@ Option | Default | Description
 --- | --- | ---
 field | 'revisions' | name of the field which will hold the document's revisions within itself  *String*
 lastModifiedField | 'lastModified' | Name of the field storing the date / time the document was last modified *String*
-ignoreWithin | false | If an update occurs within this timeframe since the last update, a new revision will not be created. Keep as false to capture all updates (no unit needed if false). *false or Number*
-ignoreWithinUnit | 'minutes' | the unit that goes along with the ignoreWithin number. Ignored if ignoreWithin is false *(seconds/minutes/hours/etc)*
+ignoreWithin | 0 | If an update occurs within this amount of milliseconds since the last update, a new revision will not be created. *Number*
 keep | true | Specify a number if you wish to only retain a limited number of revisions per document. True = retain all revisions. *Number or Boolean*
 prune | false | Will delete the restored revision and all subsequent revisions. *Boolean* 
 debug | false | Turn to true to get console debug messages.
