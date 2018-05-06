@@ -1,4 +1,3 @@
-let mongo;
 const root = exports || this;
 root.CollectionRevisions = {};
 const { CollectionRevisions } = root;
@@ -13,14 +12,6 @@ CollectionRevisions.defaults = {
   prune: false,
 };
 
-// backwards compatibility
-if (typeof Mongo === "undefined") {
-  mongo = {};
-  mongo.Collection = Meteor.Collection;
-} else {
-  mongo = Mongo;
-}
-
 const crDebug = (opts, item, label) => {
   if (label == null) { label = ''; }
   if (!opts.debug) { return; }
@@ -32,7 +23,7 @@ const crDebug = (opts, item, label) => {
   }
 };
 
-mongo.Collection.prototype.attachCollectionRevisions = function(opts) {
+Mongo.Collection.prototype.attachCollectionRevisions = function(opts) {
   if (opts == null) { opts = {}; }
   const collection = this;
 

@@ -5,16 +5,7 @@ root.CollectionRevisions.restore = function(collection, documentId, revision, cb
   check(documentId, String);
   check(revision, Match.OneOf(String, Object));
 
-  // backwards compatibility
-  let mongo;
-  if (typeof Mongo === "undefined") {
-    mongo = {};
-    mongo.Collection = Meteor.Collection;
-  } else {
-    mongo = Mongo;
-  }
-
-  if (!(collection instanceof mongo.Collection)) { return false; }
+  if (!(collection instanceof Mongo.Collection)) { return false; }
 
   //Grab the document
   const doc = collection.findOne({_id:documentId});

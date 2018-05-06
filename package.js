@@ -17,7 +17,7 @@ Package.onUse(function(api) {
     'random@1.0.2',
     'matb33:collection-hooks@0.8.4',
   ]);
-  api.versionsFrom('1.0.4');
+  api.versionsFrom('1.3.0');
   api.addFiles(['collectionRevisions.js','restoreRevision.js']);
   api.export(['CollectionRevisions'], ['client', 'server']);
 });
