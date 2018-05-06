@@ -1,5 +1,13 @@
 HISTORY.md
 
+### v1.0.0
+ - Decaffeinated package
+ - Removed dependency on momentjs:moment
+ - Removed dependency on dburles:mongo-collection-instances
+ - Removed configuration `ignoreWithinUnit` - the configuration `ignoreWithin` now has the time difference in milliseconds
+ - Updated matb33:collection-hooks to latest version
+ - Dropped compatibility to meteor versions older than Meteor 1.3.0
+
 ### v0.3.3
  - Fixed issue with collection name lookup by adding a new dependency - mocha tests were failing because collections did not exist in the global scope when importing them as modules. Meteor Shell did not suffer from this issue during testing.
  - Fix issue with Meteor.Collection backward compatibility not actually using Mongo.Collection when available

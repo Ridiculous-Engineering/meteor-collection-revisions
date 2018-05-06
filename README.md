@@ -2,6 +2,8 @@ Collection Revisions for Meteor
 ------------------------
 The main purpose of this package is to retain revisions of collection documents and allow for the restore of those revisions.
 
+**Note:** This package has been decaffeinated which makes it suitable for Meteor 1.6.1, where `coffeescript` got a major update.
+
 Features
 ------------------------
 - Saves a revision of the entire document when updates are made to it.
@@ -13,9 +15,9 @@ Features
 
 Installation
 ------------------------
-This uses some features in Mongo 2.6 and above, so Meteor 1.0.4+ is required.
+
 ```
-meteor add nicklozon:collection-revisions
+meteor add simonsimcity:collection-revisions
 ```
 
 Usage
@@ -71,11 +73,11 @@ Restoring a Revision
 ------------------------
 A revision can be restored by calling CollectionRevisions.restore from either the client, server, or both. It will follow the same allow / deny permissions for an update, or use your own permissions and call CollectionRevisions.restore within a method call. If you want the simulation to run correctly on the client, the document needs to be published and the revisions field present.
 ```
-CollectionRevisions.restore(collectionName, documentId, revision, callback);
+CollectionRevisions.restore(collection, documentId, revision, callback);
 ```
 Parameter | Type | Description
 --- | --- | ---
-collectionName | String | This is the string name of your collection, ("Foo")
+collection | Object | This is the object of your collection
 documentId | String | the _id of the document you want to restore
 revision | revisionId or Object | Simplest form is to provide the revisionId stored within the revision, if you want to use specific data to restore, you can provide the revision object, overriding any fields you want to update the document to.
 callback | Function | Callback function that is executed when the update is completed. Takes two parameters: ``function(error, result)``. Refer to the [node mongodb driver documentation](http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#update).
@@ -120,7 +122,7 @@ Template.registerHelper('moment', function(date, format) {
 });
 ```
 
-Example template event code:
+Example template event code where `Foo` is the collection:
 ```js
 Template.fooRevisions.events({
   'click .revertFoo'(e,t) {
@@ -128,7 +130,7 @@ Template.fooRevisions.events({
     const foo = Template.parentData();
 
     // restore the revision
-    CollectionRevisions.restore('Foo', foo._id, this.revisionId);
+    CollectionRevisions.restore(Foo, foo._id, this.revisionId);
   }
 }); 
 ```
