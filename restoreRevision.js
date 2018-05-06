@@ -1,7 +1,7 @@
 const root = exports || this;
 
-root.CollectionRevisions.restore = function(collectionName, documentId, revision, cb) {
-  check(collectionName, String);
+root.CollectionRevisions.restore = function(collection, documentId, revision, cb) {
+  check(collection, Object);
   check(documentId, String);
   check(revision, Match.OneOf(String, Object));
 
@@ -14,16 +14,14 @@ root.CollectionRevisions.restore = function(collectionName, documentId, revision
     mongo = Mongo;
   }
 
-  //Load the collection
-  const collection = mongo.Collection.get(collectionName);
-  if (!collection) { return false; }
+  if (!(collection instanceof mongo.Collection)) { return false; }
 
   //Grab the document
   const doc = collection.findOne({_id:documentId});
   if (!doc) { return false; }
 
   //Load options
-  const opts = root.CollectionRevisions[collectionName] || {};
+  const opts = root.CollectionRevisions[collection._name] || {};
   _.defaults(opts, root.CollectionRevisions.defaults);
 
   //grab the revision if the revison is just an ID

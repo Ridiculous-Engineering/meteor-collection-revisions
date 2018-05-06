@@ -16,7 +16,6 @@ Package.onUse(function(api) {
     'check',
     'random@1.0.2',
     'matb33:collection-hooks@0.7.6',
-    'dburles:mongo-collection-instances@0.3.5'
   ]);
   api.versionsFrom('1.0.4');
   api.addFiles(['collectionRevisions.js','restoreRevision.js']);
