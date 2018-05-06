@@ -1,7 +1,4 @@
-const root = exports || this;
-
-root.CollectionRevisions.restore = function(collection, documentId, revision, cb) {
-  check(collection, Object);
+export default function(collection, documentId, revision, cb) {
   check(documentId, String);
   check(revision, Match.OneOf(String, Object));
 
@@ -12,8 +9,8 @@ root.CollectionRevisions.restore = function(collection, documentId, revision, cb
   if (!doc) { return false; }
 
   //Load options
-  const opts = root.CollectionRevisions[collection._name] || {};
-  _.defaults(opts, root.CollectionRevisions.defaults);
+  const opts = global.CollectionRevisions[collection._name] || {};
+  _.defaults(opts, global.CollectionRevisions.defaults);
 
   //grab the revision if the revison is just an ID
   if (typeof revision === 'string') {

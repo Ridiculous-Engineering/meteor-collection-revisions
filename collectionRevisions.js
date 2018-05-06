@@ -1,6 +1,9 @@
-const root = exports || this;
-root.CollectionRevisions = {};
-const { CollectionRevisions } = root;
+import { Mongo } from 'meteor/mongo';
+import restoreRevision from './restoreRevision';
+
+export const CollectionRevisions = {};
+
+CollectionRevisions.restore = restoreRevision;
 
 //Setup defaults
 CollectionRevisions.defaults = {

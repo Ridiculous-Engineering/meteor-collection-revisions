@@ -12,12 +12,14 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.use([
+    'mongo',
     'underscore',
+    'ecmascript',
     'check',
     'random@1.0.2',
     'matb33:collection-hooks@0.8.4',
   ]);
-  api.versionsFrom('1.3.0');
-  api.addFiles(['collectionRevisions.js','restoreRevision.js']);
+  api.versionsFrom('1.3.5');
+  api.mainModule('collectionRevisions.js');
   api.export(['CollectionRevisions'], ['client', 'server']);
 });
