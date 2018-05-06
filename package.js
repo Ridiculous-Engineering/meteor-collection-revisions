@@ -15,7 +15,7 @@ Package.onUse(function(api) {
     'underscore',
     'check',
     'random@1.0.2',
-    'matb33:collection-hooks@0.7.6',
+    'matb33:collection-hooks@0.8.4',
   ]);
   api.versionsFrom('1.0.4');
   api.addFiles(['collectionRevisions.js','restoreRevision.js']);
