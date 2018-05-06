@@ -29,7 +29,7 @@ root.CollectionRevisions.restore = function(collectionName, documentId, revision
   //grab the revision if the revison is just an ID
   if (typeof revision === 'string') {
     revision = _.find(doc[opts.field], rev => rev.revisionId === revision);
-    if (!revision == null)) { return false; }
+    if (!revision) { return false; }
   }
 
   //remove the revisionID
