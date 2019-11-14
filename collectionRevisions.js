@@ -1,4 +1,5 @@
 import { Mongo } from 'meteor/mongo';
+import { Random } from 'meteor/random';
 import restoreRevision from './restoreRevision';
 
 export const CollectionRevisions = {};

@@ -11,10 +11,10 @@ Package.onUse(function(api) {
     'underscore',
     'ecmascript',
     'check',
-    'random@1.0.2',
-    'matb33:collection-hooks@0.8.4',
+    'random',
+    'matb33:collection-hooks@1.0.0',
   ]);
-  api.versionsFrom('1.3.5');
+  api.versionsFrom('1.7.0.5');
   api.mainModule('collectionRevisions.js');
   api.export(['CollectionRevisions'], ['client', 'server']);
 });

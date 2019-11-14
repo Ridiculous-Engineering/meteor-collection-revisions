@@ -1,11 +1,15 @@
 HISTORY.md
 
+### v1.0.1
+ - Updated matb33:collection-hooks to version 1.0.0
+ - Dropped compatibility to meteor versions older than Meteor 1.7.0.5
+
 ### v1.0.0
  - Decaffeinated package
  - Removed dependency on momentjs:moment
  - Removed dependency on dburles:mongo-collection-instances
  - Removed configuration `ignoreWithinUnit` - the configuration `ignoreWithin` now has the time difference in milliseconds
- - Updated matb33:collection-hooks to latest version
+ - Updated matb33:collection-hooks to version 0.8.4
  - Dropped compatibility to meteor versions older than Meteor 1.3.0
 
 ### v0.3.3
