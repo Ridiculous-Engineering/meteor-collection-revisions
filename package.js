@@ -1,6 +1,6 @@
 Package.describe({
   name: 'simonsimcity:collection-revisions',
-  version: '1.0.0',
+  version: '1.0.1',
   summary: 'Keep revision history for collection documents and provide restore functionality.',
   git: 'https://github.com/simonsimcity/meteor-collection-revisions.git',
 });
