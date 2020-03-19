@@ -1,5 +1,8 @@
 HISTORY.md
 
+### v1.1.0
+ - Fixed restoring first revision of documents of collection where this package was added later
+
 ### v1.0.1
  - Updated matb33:collection-hooks to version 1.0.0
  - Dropped compatibility to meteor versions older than Meteor 1.7.0.5
