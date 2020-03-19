@@ -4,7 +4,7 @@ import restoreRevision from './restoreRevision';
 
 export const CollectionRevisions = {};
 
-CollectionRevisions.restore = restoreRevision;
+CollectionRevisions.restore = restoreRevision(CollectionRevisions);
 
 //Setup defaults
 CollectionRevisions.defaults = {

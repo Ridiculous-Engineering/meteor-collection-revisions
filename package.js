@@ -18,3 +18,21 @@ Package.onUse(function(api) {
   api.mainModule('collectionRevisions.js');
   api.export(['CollectionRevisions'], ['client', 'server']);
 });
+
+Package.onTest(function (api) {
+  // Testing the compatibility ...
+  api.use('mikowals:batch-insert');
+
+  api.use([
+    'mongo',
+    'ecmascript',
+  ]);
+
+  api.use('simonsimcity:collection-revisions', ['server','client']);
+
+  api.use('meteortesting:mocha@0.4.1', ['server','client']);
+  Npm.depends({ chai: '4.1.2' });
+
+  api.addFiles('test/collectionRevisions.js', ['server', 'client']);
+  api.addFiles('test/restoreRevision.js', ['server', 'client']);
+});
