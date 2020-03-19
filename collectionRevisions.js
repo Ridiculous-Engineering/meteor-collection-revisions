@@ -108,6 +108,14 @@ Mongo.Collection.prototype.attachCollectionRevisions = function(opts) {
         }
       }
 
+      // In case a collection got it later, the first revision doesn't have a "lastModified" field. Returning to the first revision in this case would throw a MongoDB-exception if we would have the opts.lastModifiedField property set in $set and $unset.
+      if (modifier.$unset && opts.lastModifiedField in modifier.$unset) {
+        delete modifier.$unset[opts.lastModifiedField];
+        if (Object.keys(modifier.$unset).length === 0) {
+          delete modifier.$unset;
+        }
+      }
+
       crDebug(opts, modifier, 'Final Modifier');
     } else {
       crDebug(opts, "Didn't create a new revision");
