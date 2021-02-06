@@ -1,11 +1,12 @@
 Package.describe({
-  name: 'simonsimcity:collection-revisions',
-  version: '1.1.0',
-  summary: 'Keep revision history for collection documents and provide restore functionality.',
+  name: 'ridiculousengineering:collection-revisions',
+  version: '1.2.0',
+  summary:
+    'Keep revision history for collection documents and provide restore functionality.',
   git: 'https://github.com/simonsimcity/meteor-collection-revisions.git',
 });
 
-Package.onUse(function(api) {
+Package.onUse(function (api) {
   api.use([
     'mongo',
     'underscore',
@@ -23,14 +24,11 @@ Package.onTest(function (api) {
   // Testing the compatibility ...
   api.use('mikowals:batch-insert');
 
-  api.use([
-    'mongo',
-    'ecmascript',
-  ]);
+  api.use(['mongo', 'ecmascript']);
 
-  api.use('simonsimcity:collection-revisions', ['server','client']);
+  api.use('ridiculousengineering:collection-revisions', ['server', 'client']);
 
-  api.use('meteortesting:mocha@0.4.1', ['server','client']);
+  api.use('meteortesting:mocha@0.4.1', ['server', 'client']);
   Npm.depends({ chai: '4.1.2' });
 
   api.addFiles('test/collectionRevisions.js', ['server', 'client']);
