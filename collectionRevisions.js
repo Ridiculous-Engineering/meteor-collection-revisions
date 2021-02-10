@@ -56,7 +56,14 @@ Mongo.Collection.prototype.attachCollectionRevisions = function(opts) {
   });
 
   collection.before.update(function(userId, doc, fieldNames, modifier, options) {
-    crDebug(opts, 'Begin before.update');
+    crDebug(opts, {
+      userId,
+      doc,
+      fieldNames,
+      modifier,
+      options,
+    },
+      'Begin before.update');
     crDebug(opts, opts, 'Defined options');
 
     //Don't do anything if this is a multi doc update
@@ -68,6 +75,8 @@ Mongo.Collection.prototype.attachCollectionRevisions = function(opts) {
 
     modifier = modifier || {};
     modifier.$set = modifier.$set || {};
+    const revisionIdToPrune = modifier.$set.revIdPrune;
+    delete modifier.$set.revIdPrune;
 
     //Unset the revisions field and _id from the doc before saving to the revisions
     delete doc[opts.field];
@@ -84,7 +93,22 @@ Mongo.Collection.prototype.attachCollectionRevisions = function(opts) {
     //See if this update occured more than the ignored time window since the last one
     //or the option is set to not ignore within
     //or the lastModified field is not present (collection created before this package was added)
-    if ((opts.ignoreWithin <= 0) || (doc[opts.lastModifiedField] == null) || new Date(doc[opts.lastModifiedField]) + opts.ignoreWithin < new Date()) {
+    // const modTime = new Date(doc[opts.lastModifiedField]);
+    // const timestamp = new Date();
+    const modTime = Date.parse(doc[opts.lastModifiedField]);
+    const timestamp = Date.now();
+    crDebug(opts, {
+      ignoreWithin: opts.ignoreWithin,
+      modTime,
+      timestamp,
+      lastmodified: doc[opts.lastModifiedField],
+      difDate: modTime + opts.ignoreWithin,
+      ignoreDiff: timestamp - modTime
+      
+    }, 'Evaluating ignore times')
+    //Date.parse(doc[opts.lastModifiedField]) + opts.ignoreWithin < Date.now();
+    if ((opts.ignoreWithin <= 0) || (doc[opts.lastModifiedField] == null) || Date.parse(doc[opts.lastModifiedField]) + opts.ignoreWithin < Date.now()) {
+    // if ((opts.ignoreWithin <= 0) || (doc[opts.lastModifiedField] == null) || new Date(doc[opts.lastModifiedField]) + opts.ignoreWithin < new Date()) {//this is the original version
       //If so, add a new revision
       crDebug(opts, 'Is past ignore window, creating revision');
 
@@ -95,6 +119,15 @@ Mongo.Collection.prototype.attachCollectionRevisions = function(opts) {
         modifier.$pull[opts.field] = modifier.$pull[opts.field] || {};
         modifier.$pull[opts.field][opts.lastModifiedField] = {
           $gte: modifier.$set[opts.lastModifiedField]
+        };
+      //If pruneOne is enabled AND this update is restoring a revision, prune the
+      //revision being restored ONLY using $pull
+      } else if (opts.pruneOne && modifier.$set[opts.lastModifiedField] && typeof revisionIdToPrune !== 'undefined') {
+        console.log('in pruning',revisionIdToPrune);
+        modifier.$pull = modifier.$pull || {};
+        modifier.$pull[opts.field] = modifier.$pull[opts.field] || {};
+        modifier.$pull[opts.field]['revisionId'] = {
+          $eq: revisionIdToPrune
         };
       //If pruning is NOT occuring, insert a new revision using $push
       } else {
@@ -116,7 +149,7 @@ Mongo.Collection.prototype.attachCollectionRevisions = function(opts) {
         }
       }
 
-      crDebug(opts, modifier, 'Final Modifier');
+      crDebug(opts, JSON.stringify(modifier, null, 4), 'Final Modifier');
     } else {
       crDebug(opts, "Didn't create a new revision");
     }
